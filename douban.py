@@ -36,7 +36,7 @@ headers = {
 url = 'https://movie.douban.com/j/new_search_subjects'
 
 #获取多页数据
-for start in range(0,31,10):
+for start in range(0,50,10):
     #随机睡眠1-2s
     time.sleep(random.uniform(1, 2))
 
@@ -61,7 +61,7 @@ for start in range(0,31,10):
     data = json.loads(str_json)
 
 #=============================================================
-#存储到excel
+#存储文字信息到excel
 #=============================================================
     for item in data:
         #list格式需要转化为字符串
@@ -72,6 +72,21 @@ for start in range(0,31,10):
     wb.save('musicals.xlsx')
 
 #=============================================================
+#下载并储存图片到本地
+#=============================================================
+    for item in data:
+        #print(item['cover'])
+
+        pic = requests.get(item['cover'], timeout=7)
+
+        string = item['title'] + '.jpg'
+        fp = open(string, 'wb')
+
+        fp.write(pic.content)
+        fp.flush()
+        fp.close()
+
+#=============================================================
 #Reference
 #=============================================================
 #https://zhuanlan.zhihu.com/p/22097627
@@ -80,7 +95,6 @@ for start in range(0,31,10):
 #https://blog.csdn.net/weixin_43881394/article/details/106281532
 #https://blog.csdn.net/roytao2/article/details/53433373
 #https://blog.csdn.net/qq_39884947/article/details/86691476?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.nonecase
-
 
 #=============================================================
 #Useful Tools
